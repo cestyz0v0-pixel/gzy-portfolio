@@ -73,7 +73,7 @@
             color: #ffffff;
         }
 
-        /* Container for the 3D Scene */
+        /* 3D Scene Viewport */
         .main-content {
             margin-left: 320px;
             flex: 1;
@@ -82,88 +82,93 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            /* Creates the theatrical 3D viewport depth */
             perspective: 2000px; 
             overflow: hidden;
         }
         
-        /* The Rotating Carousel Base */
+        /* 🌟 The 3D Carousel Stage Center - CSS Animation handles the permanent auto-spin 🌟 */
         .carousel-stage {
-            width: 240px;
-            height: 160px;
+            width: 200px;
+            height: 280px; 
             position: relative;
             transform-style: preserve-3d;
-            /* Smooth inertial recovery for dragging/moving */
-            transition: transform 0.2s ease-out; 
-            /* Subtle automatic idle breathing rotation */
-            animation: spinIdle 60s infinite linear;
+            /* Infinite independent smooth rotation loop */
+            animation: permanentSpin 45s infinite linear;
         }
         
-        /* The 3D Floating Images */
+        /* Individual 3D Portfolio Items */
         .portfolio-item {
             position: absolute;
-            width: 240px;
-            height: 160px;
+            width: 200px; 
             left: 0;
-            top: 0;
-            background-color: #0a0a0a;
-            border-radius: 2px;
-            overflow: hidden;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: transparent;
             text-decoration: none;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             
-            /* Shifts transition to ensure snapping backward stays elegant */
-            transition: filter 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
+            /* Layered elegant overlap density look */
+            opacity: 0.45;
+            filter: grayscale(10%);
+            
+            /* Cinematic smooth extraction transition */
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                        opacity 0.4s ease, 
+                        filter 0.4s ease;
+                        
             backface-visibility: visible; 
-            
-            /* Keeps layout non-distorted */
-            display: flex;
-            flex-direction: column;
+            display: block;
         }
         
+        /* Responsive scaling down to target native dimensions without any deformation */
         .portfolio-item img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(15%);
-            transition: filter 0.4s ease;
+            height: auto; 
+            max-height: 280px; 
+            object-fit: contain; 
+            display: block;
+            border-radius: 2px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.85);
+            background-color: #050505; 
         }
         
-        /* Subtle serial overlay visible natively like a gallery label */
+        /* Clean Technical Label */
         .item-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 8px 12px;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            font-size: 0.8rem;
-            color: #888888;
-            letter-spacing: 1px;
-            opacity: 0.6;
-            transition: opacity 0.4s, color 0.4s;
+            padding-top: 10px;
+            font-size: 0.75rem;
+            color: #444444;
+            letter-spacing: 2px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: color 0.4s;
         }
 
-        /* Hover Interaction on Individual 3D Elements */
-        .portfolio-item:hover {
-            filter: grayscale(0%);
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
-            /* Pops the image outward from the cylinder axis slightly toward the user */
-            transform: var(--current-transform) translateZ(30px) !important;
+        /* Spotlight Focus Effects */
+        .carousel-stage:has(.portfolio-item:hover) .portfolio-item:not(:hover) {
+            opacity: 0.12;
+            filter: grayscale(60%) blur(1px);
         }
+
+        .portfolio-item:hover {
+            opacity: 1 !important;
+            filter: grayscale(0%) !important;
+            z-index: 100;
+            
+            /* Shoots forward out of the spinning cylinder axis directly at the user */
+            transform: var(--current-transform) translateZ(140px) scale(1.4) !important;
+        }
+        
         .portfolio-item:hover .item-info {
-            opacity: 1;
             color: #ffffff;
         }
 
-        /* Gentle automatic spin when mouse is away */
-        @keyframes spinIdle {
-            from { transform: rotateX(-10deg) rotateY(0deg); }
-            to { transform: rotateX(-10deg) rotateY(360deg); }
+        /* 🌟 Pure Mathematical Permanent Spinning Timeline - Locks rotation axis perfectly 🌟 */
+        @keyframes permanentSpin {
+            0% { transform: rotateX(-12deg) rotateY(0deg); }
+            100% { transform: rotateX(-12deg) rotateY(-360deg); }
         }
 
-        /* Mobile Adaptation - Flattens ring to regular stacks for viewport protection */
+        /* Responsive Mobile Layout Replacement */
         @media (max-width: 768px) {
             body { flex-direction: column; overflow-y: auto; }
             .sidebar {
@@ -175,12 +180,13 @@
             .main-content { margin-left: 0; height: auto; padding: 40px 20px; overflow: visible; }
             .carousel-stage { 
                 width: 100%; height: auto; display: flex; flex-direction: column; 
-                gap: 30px; transform: none !important; animation: none !important; 
+                gap: 40px; transform: none !important; animation: none !important; 
             }
             .portfolio-item { 
-                position: relative; width: 100%; height: 220px; 
-                transform: none !important; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+                position: relative; width: 100%; transform: none !important; 
+                opacity: 1 !important; filter: none !important; box-shadow: none;
             }
+            .portfolio-item img { max-height: none; }
             .portfolio-item:hover { transform: scale(1.02) !important; }
         }
     </style>
@@ -222,45 +228,18 @@
 
     <script>
         const items = document.querySelectorAll('.portfolio-item');
-        const stage = document.getElementById('stage');
         const totalItems = items.length;
         
-        // Circular math: Calculate the radius of the ring to make 11 images fit perfectly without overlap
-        // Radius = (width / 2) / tan(PI / totalItems) -> approx 430px radius depth
         const angleUnit = 360 / totalItems;
-        const radius = Math.round((240 / 2) / Math.tan(Math.PI / totalItems)) + 20;
+        // Tight depth radius to guarantee the precise overlapping layer look
+        const radius = Math.round((200 / 2) / Math.tan(Math.PI / totalItems)) + 45;
 
-        // Spread the 11 items mathematically across a 360-degree cylindrical ring
+        // Spread the items around the circular track and save their core positions
         items.forEach((item, index) => {
             const itemAngle = angleUnit * index;
             const transformString = `rotateY(${itemAngle}deg) translateZ(${radius}px)`;
             item.style.transform = transformString;
-            // Store original coordinates dynamically to let hover states snap without losing track
             item.style.setProperty('--current-transform', transformString);
-        });
-
-        // Interactive mouse tracking to tilt the whole star-ring structure dynamically
-        let mouseX = 0, mouseY = 0;
-        let currentRotationX = -10, currentRotationY = 0;
-
-        window.addEventListener('mousemove', (e) => {
-            // Pause native CSS spinning keyframe smoothly when user takes control
-            stage.style.animation = 'none';
-            
-            // Map cursor positions to orientation angles (-30deg to 30deg)
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 50;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * -30;
-            
-            // Apply slight vertical dip offset to match the high-end architectural preview feel
-            currentRotationX = -10 + mouseY;
-            currentRotationY = mouseX;
-            
-            stage.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
-        });
-
-        // Restore breathing idle rotation when mouse leaves the portfolio window completely
-        window.addEventListener('mouseleave', () => {
-            stage.style.animation = 'spinIdle 60s infinite linear';
         });
     </script>
 
