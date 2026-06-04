@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guizhu YUE | Portfolio</title>
+    <title>Guizhu YUE | Art Direction</title>
     <style>
         * {
             box-sizing: border-box;
@@ -16,10 +16,11 @@
             background-color: #000000; 
             display: flex;
             flex-direction: row;
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
         }
 
+        /* Sidebar Section */
         .sidebar {
             width: 320px;
             padding: 60px 40px;
@@ -42,9 +43,11 @@
             color: #ffffff;
         }
         .sidebar .subtitle {
-            font-size: 0.9rem;
-            color: #666666;
+            font-size: 0.85rem;
+            color: #888888;
             margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .contact-item {
             margin-bottom: 25px;
@@ -70,93 +73,115 @@
             color: #ffffff;
         }
 
+        /* Container for the 3D Scene */
         .main-content {
             margin-left: 320px;
             flex: 1;
-            padding: 40px;
-            perspective: 1000px; 
-        }
-        
-        .portfolio-grid {
-            column-count: 3; 
-            column-gap: 30px;
-        }
-        
-        .portfolio-item {
-            break-inside: avoid; 
-            margin-bottom: 30px;
-            background-color: transparent;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: relative;
-            cursor: pointer;
-            display: block; 
-            text-decoration: none;
-            transform-style: preserve-3d;
-            perspective: 1000px;
+            /* Creates the theatrical 3D viewport depth */
+            perspective: 2000px; 
+            overflow: hidden;
         }
         
-        .portfolio-item .img-box {
-            width: 100%;
-            overflow: hidden;
+        /* The Rotating Carousel Base */
+        .carousel-stage {
+            width: 240px;
+            height: 160px;
+            position: relative;
+            transform-style: preserve-3d;
+            /* Smooth inertial recovery for dragging/moving */
+            transition: transform 0.2s ease-out; 
+            /* Subtle automatic idle breathing rotation */
+            animation: spinIdle 60s infinite linear;
+        }
+        
+        /* The 3D Floating Images */
+        .portfolio-item {
+            position: absolute;
+            width: 240px;
+            height: 160px;
+            left: 0;
+            top: 0;
             background-color: #0a0a0a;
-            transition: transform 0.5s ease-out, box-shadow 0.5s ease-out;
-            will-change: transform;
             border-radius: 2px;
+            overflow: hidden;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            
+            /* Shifts transition to ensure snapping backward stays elegant */
+            transition: filter 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
+            backface-visibility: visible; 
+            
+            /* Keeps layout non-distorted */
+            display: flex;
+            flex-direction: column;
         }
         
         .portfolio-item img {
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
+            object-fit: cover;
             filter: grayscale(15%);
-            transition: filter 0.5s ease, scale 0.5s ease;
+            transition: filter 0.4s ease;
         }
         
-        .portfolio-item:hover .img-box {
-            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.08);
-        }
-        .portfolio-item:hover img {
-            filter: grayscale(0%);
-            scale: 1.02;
-        }
-        
+        /* Subtle serial overlay visible natively like a gallery label */
         .item-info {
-            padding: 15px 5px 5px 5px;
-            font-size: 0.85rem;
-            color: #666666;
-            transition: color 0.3s;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 8px 12px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            font-size: 0.8rem;
+            color: #888888;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            transition: opacity 0.4s, color 0.4s;
+        }
+
+        /* Hover Interaction on Individual 3D Elements */
+        .portfolio-item:hover {
+            filter: grayscale(0%);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
+            /* Pops the image outward from the cylinder axis slightly toward the user */
+            transform: var(--current-transform) translateZ(30px) !important;
         }
         .portfolio-item:hover .item-info {
+            opacity: 1;
             color: #ffffff;
         }
 
-        @media (max-width: 1200px) {
-            .portfolio-grid { 
-                column-count: 2; 
-            }
+        /* Gentle automatic spin when mouse is away */
+        @keyframes spinIdle {
+            from { transform: rotateX(-10deg) rotateY(0deg); }
+            to { transform: rotateX(-10deg) rotateY(360deg); }
         }
 
+        /* Mobile Adaptation - Flattens ring to regular stacks for viewport protection */
         @media (max-width: 768px) {
-            body { 
-                flex-direction: column; 
-            }
+            body { flex-direction: column; overflow-y: auto; }
             .sidebar {
-                width: 100%; 
-                position: relative; 
-                height: auto;
-                padding: 40px 25px 20px 25px; 
-                border-right: none;
+                width: 100%; position: relative; height: auto;
+                padding: 40px 25px 20px 25px; border-right: none;
                 border-bottom: 1px solid #111111;
             }
-            .sidebar .subtitle { 
-                margin-bottom: 30px; 
+            .sidebar .subtitle { margin-bottom: 30px; }
+            .main-content { margin-left: 0; height: auto; padding: 40px 20px; overflow: visible; }
+            .carousel-stage { 
+                width: 100%; height: auto; display: flex; flex-direction: column; 
+                gap: 30px; transform: none !important; animation: none !important; 
             }
-            .main-content { 
-                margin-left: 0; 
-                padding: 20px; 
+            .portfolio-item { 
+                position: relative; width: 100%; height: 220px; 
+                transform: none !important; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             }
-            .portfolio-grid { 
-                column-count: 1; 
-            }
+            .portfolio-item:hover { transform: scale(1.02) !important; }
         }
     </style>
 </head>
@@ -164,7 +189,7 @@
 
     <div class="sidebar">
         <h1>Guizhu YUE</h1> 
-        <div class="subtitle">Motion & Visual Storytelling</div>
+        <div class="subtitle">Art Direction & Visual Strategies</div>
         
         <div class="contact-item">
             <div class="contact-label">TEL</div>
@@ -178,102 +203,64 @@
     </div>
 
     <div class="main-content">
-        <div class="portfolio-grid">
+        <div class="carousel-stage" id="stage">
             
-            <a href="project1.html" class="portfolio-item">
-                <div class="img-box"><img src="p1.jpg" alt="Project 1"></div>
-                <div class="item-info">01. FADE Promotional Video</div>
-            </a>
-            
-            <a href="project2.html" class="portfolio-item">
-                <div class="img-box"><img src="p2.jpg" alt="Project 2"></div>
-                <div class="item-info">02. LA THÉRAPIE DU CONFORT</div>
-            </a>
-            
-            <a href="project3.html" class="portfolio-item">
-                <div class="img-box"><img src="p3.jpg" alt="Project 3"></div>
-                <div class="item-info">03. OnTime Média Documentary</div>
-            </a>
-            
-            <a href="project4.html" class="portfolio-item">
-                <div class="img-box"><img src="p4.jpg" alt="Project 4"></div>
-                <div class="item-info">04. L'ORANGE N'EST PAS LE SEUL FRUIT</div>
-            </a>
-            
-            <a href="project5.html" class="portfolio-item">
-                <div class="img-box"><img src="p5.jpg" alt="Project 5"></div>
-                <div class="item-info">05. UNIQUE FASHION FOUNDATION</div>
-            </a>
-            
-            <a href="project6.html" class="portfolio-item">
-                <div class="img-box"><img src="p6.jpg" alt="Project 6"></div>
-                <div class="item-info">06. Editorial & Brand Collaboration</div>
-            </a>
-
-            <a href="project7.html" class="portfolio-item">
-                <div class="img-box"><img src="p7.jpg" alt="Project 7"></div>
-                <div class="item-info">07. Visual Production Asset</div>
-            </a>
-
-            <a href="project8.html" class="portfolio-item">
-                <div class="img-box"><img src="p8.jpg" alt="Project 8"></div>
-                <div class="item-info">08. Creative Direction Project</div>
-            </a>
-
-            <a href="project9.html" class="portfolio-item">
-                <div class="img-box"><img src="p9.jpg" alt="Project 9"></div>
-                <div class="item-info">09. Fashion Film Campaign</div>
-            </a>
-
-            <a href="project10.html" class="portfolio-item">
-                <div class="img-box"><img src="p10.jpg" alt="Project 10"></div>
-                <div class="item-info">10. Motion Graphic Showcase</div>
-            </a>
-
-            <a href="project11.html" class="portfolio-item">
-                <div class="img-box"><img src="p11.jpg" alt="Project 11"></div>
-                <div class="item-info">11. Documentary Production</div>
-            </a>
-
-            <a href="project12.html" class="portfolio-item">
-                <div class="img-box"><img src="p12.jpg" alt="Project 12"></div>
-                <div class="item-info">12. Photography Editorial Series</div>
-            </a>
-
-            <a href="project13.html" class="portfolio-item">
-                <div class="img-box"><img src="p13.jpg" alt="Project 13"></div>
-                <div class="item-info">13. Social Media Visual Campaign</div>
-            </a>
-
-            <a href="project14.html" class="portfolio-item">
-                <div class="img-box"><img src="p14.jpg" alt="Project 14"></div>
-                <div class="item-info">14. Experimental Film Workshop</div>
-            </a>
-
-            <a href="project15.html" class="portfolio-item">
-                <div class="img-box"><img src="p15.jpg" alt="Project 15"></div>
-                <div class="item-info">15. Creative Portfolio Showcase</div>
-            </a>
+            <a href="project1.html" class="portfolio-item"><img src="p1.jpg"><div class="item-info">01</div></a>
+            <a href="project2.html" class="portfolio-item"><img src="p2.jpg"><div class="item-info">02</div></a>
+            <a href="project3.html" class="portfolio-item"><img src="p3.jpg"><div class="item-info">03</div></a>
+            <a href="project4.html" class="portfolio-item"><img src="p4.jpg"><div class="item-info">04</div></a>
+            <a href="project5.html" class="portfolio-item"><img src="p5.jpg"><div class="item-info">05</div></a>
+            <a href="project6.html" class="portfolio-item"><img src="p6.jpg"><div class="item-info">06</div></a>
+            <a href="project7.html" class="portfolio-item"><img src="p7.jpg"><div class="item-info">07</div></a>
+            <a href="project8.html" class="portfolio-item"><img src="p8.jpg"><div class="item-info">08</div></a>
+            <a href="project9.html" class="portfolio-item"><img src="p9.jpg"><div class="item-info">09</div></a>
+            <a href="project10.html" class="portfolio-item"><img src="p10.jpg"><div class="item-info">10</div></a>
+            <a href="project11.html" class="portfolio-item"><img src="p11.jpg"><div class="item-info">11</div></a>
 
         </div>
     </div>
 
     <script>
-        document.querySelectorAll('.portfolio-item').forEach(item => {
-            const imgBox = item.querySelector('.img-box');
-            item.addEventListener('mousemove', (e) => {
-                const rect = item.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const xc = ((x / rect.width) - 0.5);
-                const yc = ((y / rect.height) - 0.5);
-                const rotateX = yc * -20;
-                const rotateY = xc * 20;
-                imgBox.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
-            item.addEventListener('mouseleave', () => {
-                imgBox.style.transform = 'rotateX(0deg) rotateY(0deg)';
-            });
+        const items = document.querySelectorAll('.portfolio-item');
+        const stage = document.getElementById('stage');
+        const totalItems = items.length;
+        
+        // Circular math: Calculate the radius of the ring to make 11 images fit perfectly without overlap
+        // Radius = (width / 2) / tan(PI / totalItems) -> approx 430px radius depth
+        const angleUnit = 360 / totalItems;
+        const radius = Math.round((240 / 2) / Math.tan(Math.PI / totalItems)) + 20;
+
+        // Spread the 11 items mathematically across a 360-degree cylindrical ring
+        items.forEach((item, index) => {
+            const itemAngle = angleUnit * index;
+            const transformString = `rotateY(${itemAngle}deg) translateZ(${radius}px)`;
+            item.style.transform = transformString;
+            // Store original coordinates dynamically to let hover states snap without losing track
+            item.style.setProperty('--current-transform', transformString);
+        });
+
+        // Interactive mouse tracking to tilt the whole star-ring structure dynamically
+        let mouseX = 0, mouseY = 0;
+        let currentRotationX = -10, currentRotationY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            // Pause native CSS spinning keyframe smoothly when user takes control
+            stage.style.animation = 'none';
+            
+            // Map cursor positions to orientation angles (-30deg to 30deg)
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 50;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * -30;
+            
+            // Apply slight vertical dip offset to match the high-end architectural preview feel
+            currentRotationX = -10 + mouseY;
+            currentRotationY = mouseX;
+            
+            stage.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
+        });
+
+        // Restore breathing idle rotation when mouse leaves the portfolio window completely
+        window.addEventListener('mouseleave', () => {
+            stage.style.animation = 'spinIdle 60s infinite linear';
         });
     </script>
 
