@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guizhu YUE | Portfolio</title>
     <style>
-        /* 页面整体基础样式：高级黑 */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,36 +12,38 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #ffffff; /* 字体全部改成白色 */
-            background-color: #000000; /* 背景彻底变成纯黑 */
+            color: #ffffff; 
+            background-color: #000000; 
             display: flex;
             flex-direction: row;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* 左侧固定栏 - 白色文字在黑色背景下极为显眼 */
         .sidebar {
             width: 320px;
             padding: 60px 40px;
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; 
+            left: 0; 
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            border-right: 1px solid #1a1a1a; /* 极暗的分割线 */
+            border-right: 1px solid #111111;
+            z-index: 10;
+            background-color: #000000;
         }
         .sidebar h1 {
             font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 10px;
             letter-spacing: 0.5px;
-            color: #fff;
+            color: #ffffff;
         }
         .sidebar .subtitle {
             font-size: 0.9rem;
-            color: #888; /* 灰色副标题 */
+            color: #666666;
             margin-bottom: 50px;
         }
         .contact-item {
@@ -50,104 +51,105 @@
         }
         .contact-label {
             font-size: 0.7rem;
-            color: #555; /* 暗灰色标签 */
+            color: #444444;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 5px;
         }
         .contact-value {
             font-size: 0.95rem;
-            color: #ddd;
+            color: #aaaaaa;
             word-break: break-all;
         }
         .contact-value a {
-            color: #ddd;
+            color: #aaaaaa;
             text-decoration: none;
             transition: color 0.3s;
         }
         .contact-value a:hover {
-            color: #fff; /* 悬停时变亮 */
+            color: #ffffff;
         }
 
-        /* 右侧作品瀑布流网格区域 */
         .main-content {
             margin-left: 320px;
             flex: 1;
             padding: 40px;
+            perspective: 1000px; 
         }
         
-        /* 采用响应式多列布局，模仿原网址错落有致的视觉效果 */
         .portfolio-grid {
-            column-count: 2; /* 电脑端排成两列瀑布流 */
-            column-gap: 20px;
+            column-count: 2; 
+            column-gap: 30px;
         }
         
-        /* 每一个作品块 */
         .portfolio-item {
-            break-inside: avoid; /* 防止图片被截断 */
-            margin-bottom: 20px;
-            background-color: #0b0b0b;
+            break-inside: avoid; 
+            margin-bottom: 30px;
+            background-color: transparent;
             position: relative;
             cursor: pointer;
-            display: block; /* 允许整体作为超链接点击 */
+            display: block; 
             text-decoration: none;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
         
-        /* 图片盒子：控制动态特效 */
         .portfolio-item .img-box {
             width: 100%;
             overflow: hidden;
-            background-color: #111;
+            background-color: #0a0a0a;
+            transition: transform 0.5s ease-out, box-shadow 0.5s ease-out;
+            will-change: transform;
+            border-radius: 2px;
         }
         
-        /* 核心动态：像原网址一样的平滑呼吸放大感 */
         .portfolio-item img {
             width: 100%;
             height: auto;
             display: block;
-            filter: grayscale(20%); /* 略带一点高级灰滤镜 */
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
+            filter: grayscale(15%);
+            transition: filter 0.5s ease, scale 0.5s ease;
         }
         
-        /* 鼠标悬停时的动效：图片放大并且色彩变亮变鲜艳 */
+        .portfolio-item:hover .img-box {
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.08);
+        }
         .portfolio-item:hover img {
-            transform: scale(1.04); 
             filter: grayscale(0%);
+            scale: 1.02;
         }
         
-        /* 图片下方的标题文字 */
         .item-info {
-            padding: 12px 5px;
+            padding: 15px 5px 5px 5px;
             font-size: 0.85rem;
-            color: #888;
+            color: #666666;
             transition: color 0.3s;
         }
         .portfolio-item:hover .item-info {
-            color: #fff; /* 悬停时文字变白 */
+            color: #ffffff;
         }
 
-        /* 移动端响应式：自动适配手机和iPad */
         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
+            body { 
+                flex-direction: column; 
             }
             .sidebar {
-                width: 100%;
-                position: relative;
+                width: 100%; 
+                position: relative; 
                 height: auto;
-                padding: 40px 25px 20px 25px;
+                padding: 40px 25px 20px 25px; 
                 border-right: none;
-                border-bottom: 1px solid #1a1a1a;
+                border-bottom: 1px solid #111111;
             }
-            .sidebar .subtitle {
-                margin-bottom: 30px;
+            .sidebar .subtitle { 
+                margin-bottom: 30px; 
             }
-            .main-content {
-                margin-left: 0;
-                padding: 20px;
+            .main-content { 
+                margin-left: 0; 
+                padding: 20px; 
             }
-            .portfolio-grid {
-                column-count: 1; /* 手机端自动变成单列展示 */
+            .portfolio-grid { 
+                column-count: 1; 
             }
         }
     </style>
@@ -204,6 +206,25 @@
 
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            const imgBox = item.querySelector('.img-box');
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xc = ((x / rect.width) - 0.5);
+                const yc = ((y / rect.height) - 0.5);
+                const rotateX = yc * -20;
+                const rotateY = xc * 20;
+                imgBox.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            item.addEventListener('mouseleave', () => {
+                imgBox.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            });
+        });
+    </script>
 
 </body>
 </html>
