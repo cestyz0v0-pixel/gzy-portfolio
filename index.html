@@ -21,10 +21,10 @@
             overflow: hidden;
         }
 
-        /* 🖋️ Left Side Information Area - Redesigned to Match Reference Tiny Style */
+        /* Left Side Info Panel */
         .sidebar {
-            width: 320px;
-            padding: 80px 50px;
+            width: 280px;
+            padding: 70px 45px;
             position: absolute;
             top: 0; 
             left: 0; 
@@ -32,43 +32,40 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            z-index: 10;
-            background-color: transparent; /* Transparent background lets 3D breathe */
-            pointer-events: none; /* Allows mouse events to pass through to the space below */
+            z-index: 100;
+            background-color: transparent;
+            pointer-events: none; 
         }
         .sidebar * {
-            pointer-events: auto; /* Restores clicking capability for links */
+            pointer-events: auto; 
         }
         
-        /* The Name Heading - Micro-scaled & uppercase like reference */
         .sidebar h1 {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: #ffffff;
         }
-        /* Subtitle - Tiny editorial tag */
         .sidebar .subtitle {
-            font-size: 0.62rem;
-            color: #666666;
-            margin-bottom: 60px;
+            font-size: 0.58rem;
+            color: #555555;
+            margin-bottom: 55px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
         .contact-item {
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
         .contact-label {
-            font-size: 0.6rem;
-            color: #444444;
+            font-size: 0.58rem;
+            color: #3f3f3f;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
         .contact-value {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             color: #888888;
             letter-spacing: 0.5px;
         }
@@ -81,86 +78,77 @@
             color: #ffffff;
         }
 
-        /* 🏛️ 3D Viewport - Engineered for absolute center ground alignment */
+        /* 3D Main Viewport */
         .main-content {
             width: 100vw;
             height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center; /* PERFECT VERTICAL & HORIZONTAL CENTERING */
+            align-items: center; 
             position: relative;
-            perspective: 2000px; 
+            perspective: 2500px; 
             overflow: hidden;
             background: #000000;
         }
         
-        /* The 3D Book Reel Stage Base */
+        /* Centered & Elevated 3D Fan Stage */
         .carousel-stage {
-            width: 180px;
-            height: 250px; 
+            width: 170px;
+            height: 240px; 
             position: relative;
             transform-style: preserve-3d;
-            /* Absolute centering adjustment matrix */
-            transform: translateY(0px) rotateX(-12deg); 
-            animation: bookFlappingSpin 55s infinite linear;
+            transform: translateY(-110px) rotateX(-54deg); 
+            animation: fanDeckContinuousSpin 45s infinite linear;
         }
         
-        /* 📖 Individual Book Pages (Opaque, Solid Edge-On Styling) */
         .portfolio-item {
             position: absolute;
-            width: 180px; 
+            width: 170px; 
             left: 0;
             top: 50%;
             transform: translateY(-50%);
             background-color: transparent;
             text-decoration: none;
             cursor: pointer;
-            
-            /* 🌟 Premium Solid Aspect: 90% Uncompromised Opaque Body 🌟 */
-            opacity: 0.90;
-            filter: grayscale(5%);
-            
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+            opacity: 0.92;
+            filter: grayscale(3%);
+            transition: transform 0.85s cubic-bezier(0.19, 1, 0.22, 1), 
                         opacity 0.4s ease, 
                         filter 0.4s ease;
-                        
             backface-visibility: visible; 
             display: block;
         }
         
-        /* Completely organic scaled original proportions inside the leaf */
         .portfolio-item img {
             width: 100%;
             height: auto; 
-            max-height: 250px; 
+            max-height: 240px; 
             object-fit: contain; 
             display: block;
             border-radius: 1px;
-            /* Solid structural shadows for overlapping density */
-            box-shadow: -12px 15px 35px rgba(0, 0, 0, 0.95);
+            box-shadow: -10px 12px 30px rgba(0, 0, 0, 0.95);
             background-color: #030303;
         }
         
-        /* Micro Index Labels under pages */
         .item-info {
             padding-top: 10px;
-            font-size: 0.6rem;
-            color: #333333;
+            font-size: 0.55rem;
+            color: #2a2a2a;
             letter-spacing: 2px;
             text-align: center;
             transition: color 0.4s;
         }
 
-        /* Hover System Matrix */
+        /* Focus Animation */
         .carousel-stage:has(.portfolio-item:hover) .portfolio-item:not(:hover) {
-            opacity: 0.10; 
-            filter: grayscale(80%) blur(1.5px);
+            opacity: 0.05; 
+            filter: grayscale(90%) blur(2px);
         }
 
         .portfolio-item:hover {
             opacity: 1 !important;
             filter: grayscale(0%) !important;
-            z-index: 999;
+            z-index: 1000;
             transform: var(--hover-flip-transform) !important;
         }
         
@@ -168,33 +156,20 @@
             color: #ffffff;
         }
 
-        /* 🔄 Continuous Balanced Auto Spinning Timeline */
-        @keyframes bookFlappingSpin {
-            0% { transform: rotateX(-15deg) rotateY(0deg); }
-            100% { transform: rotateX(-15deg) rotateY(-360deg); }
+        @keyframes fanDeckContinuousSpin {
+            0% { transform: translateY(-110px) rotateX(-54deg) rotateY(0deg); }
+            100% { transform: translateY(-110px) rotateX(-54deg) rotateY(-360deg); }
         }
 
-        /* 📱 🌟 High-End Responsive Mobile Transformation: Keeps 3D Ring Intact! 🌟 */
         @media (max-width: 768px) {
-            body { flex-direction: column; overflow: hidden; position: relative; }
-            
-            /* Top Muted Layout for Mobile Sidebar */
+            body { flex-direction: column; overflow: hidden; }
             .sidebar {
                 width: 100vw; height: auto; position: relative;
-                padding: 40px 30px 10px 30px; border-right: none;
+                padding: 40px 30px 10px 30px;
             }
-            .sidebar .subtitle { margin-bottom: 25px; }
-            .sidebar .contact-item { display: inline-block; margin-right: 30px; margin-bottom: 15px; }
-            
-            /* Center Viewport on Phone scales down visually to fit perfectly without cracking */
             .main-content { 
                 flex: 1; width: 100vw; height: auto;
-                display: flex; justify-content: center; align-items: center;
-                /* Shrinks the viewport scale to neatly contain the full 3D layout on portrait screens */
-                transform: scale(0.85); 
-            }
-            .carousel-stage {
-                transform: translateY(-40px) rotateX(-15deg);
+                transform: scale(0.72) translateY(-60px); 
             }
         }
     </style>
@@ -237,24 +212,19 @@
     <script>
         const items = document.querySelectorAll('.portfolio-item');
         const totalItems = items.length;
-        
         const angleUnit = 360 / totalItems;
-        // Radius tuned for the precise layered file folder look in your reference images
-        const radius = 240; 
+        const radius = 230; 
 
         items.forEach((item, index) => {
             const itemAngle = angleUnit * index;
             
-            // Re-engineered base layout: Sideways layout like library bookshelf slots
-            const baseTransform = `rotateY(${itemAngle}deg) translateZ(${radius}px) rotateY(90deg)`;
+            const baseTransform = `rotateY(${itemAngle}deg) translateZ(${radius}px) rotateX(25deg) rotateZ(10deg)`;
             item.style.transform = baseTransform;
             item.style.setProperty('--current-transform', baseTransform);
             
-            // Re-engineered snap-to-front flip configuration on focus
-            const hoverFlipTransform = `rotateY(${itemAngle}deg) translateZ(${radius + 150}px) rotateY(0deg) scale(1.4)`;
+            const hoverFlipTransform = `rotateY(${itemAngle}deg) translateZ(${radius + 200}px) rotateX(54deg) rotateY(0deg) rotateZ(0deg) scale(1.6)`;
             item.style.setProperty('--hover-flip-transform', hoverFlipTransform);
         });
     </script>
-
 </body>
 </html>
