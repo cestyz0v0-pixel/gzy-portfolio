@@ -73,27 +73,28 @@
             color: #ffffff;
         }
 
-        /* 3D Viewport - Re-centered globally */
+        /* 3D Viewport Box */
         .main-content {
             margin-left: 320px;
             flex: 1;
             height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center; /* Forces exact center grid grounding */
+            align-items: center; 
             position: relative;
             perspective: 2500px; 
             overflow: hidden;
             background: radial-gradient(circle at center, #0a0a0a 0%, #000000 70%);
         }
         
-        /* The 3D Book Reel Stage */
+        /* 🚀 The 3D Carousel Stage - Lifted significantly upwards (translateY) 🚀 */
         .carousel-stage {
             width: 220px;
             height: 300px; 
             position: relative;
             transform-style: preserve-3d;
-            transform: translateY(-20px); /* Slightly shifted up to achieve total visual weight symmetry */
+            /* Changed from -20px to -60px to drag the entire cluster higher up on the screen */
+            transform: translateY(-60px); 
             animation: bookFlappingSpin 50s infinite linear;
         }
         
@@ -108,11 +109,10 @@
             text-decoration: none;
             cursor: pointer;
             
-            /* High structural density overlap */
-            opacity: 0.35;
-            filter: grayscale(20%);
+            /* 🌟 CRITICAL: Set base opacity to 90% as requested for premium solid texture 🌟 */
+            opacity: 0.90;
+            filter: grayscale(10%);
             
-            /* Transforming with an asymmetric spring function for organic book feel */
             transition: transform 0.8s cubic-bezier(0.25, 1, 0.3, 1), 
                         opacity 0.5s ease, 
                         filter 0.5s ease;
@@ -129,7 +129,8 @@
             object-fit: contain; 
             display: block;
             border-radius: 1px;
-            box-shadow: -10px 15px 35px rgba(0, 0, 0, 0.9);
+            /* Enhanced solid drop shadow because pages are now 90% opaque */
+            box-shadow: -15px 20px 40px rgba(0, 0, 0, 0.95);
             background-color: #030303;
         }
         
@@ -137,26 +138,22 @@
         .item-info {
             padding-top: 12px;
             font-size: 0.75rem;
-            color: #444444;
+            color: #666666;
             letter-spacing: 2px;
             text-align: center;
             transition: color 0.4s;
         }
 
-        /* 🌟 THE DECONSTRUCTION HOVER: Flips 90 degrees outward to face viewer perfectly */
+        /* Hover System */
         .carousel-stage:has(.portfolio-item:hover) .portfolio-item:not(:hover) {
-            opacity: 0.08;
-            filter: grayscale(80%) blur(2px);
+            opacity: 0.15; /* Temporarily dims down background elements on focus */
+            filter: grayscale(70%) blur(1px);
         }
 
         .portfolio-item:hover {
             opacity: 1 !important;
             filter: grayscale(0%) !important;
             z-index: 500;
-            
-            /* Removes the built-in side profile rotation (overriding it dynamically via CSS variables)
-               and forces it to snap directly forward facing the viewer (rotateY(0) + translateZ for dramatic impact)
-            */
             transform: var(--hover-flip-transform) !important;
         }
         
@@ -164,13 +161,13 @@
             color: #ffffff;
         }
 
-        /* 🔄 Pure Architectural Edge-On Auto Spinning Timeline */
+        /* Pure Architectural Edge-On Auto Spinning Timeline */
         @keyframes bookFlappingSpin {
             0% { transform: rotateX(-14deg) rotateY(0deg); }
             100% { transform: rotateX(-14deg) rotateY(-360deg); }
         }
 
-        /* 📱 High-End Responsive Mobile Layout Transformation */
+        /* 📱 Responsive Mobile Layout Transformation */
         @media (max-width: 768px) {
             body { flex-direction: column; overflow-y: auto; }
             .sidebar {
@@ -187,7 +184,6 @@
                 width: 100%; height: auto; display: flex; flex-direction: column; 
                 gap: 50px; transform: none !important; animation: none !important; 
             }
-            /* Flat card editorial layouts on phone viewports to prevent line-crushing distortion */
             .portfolio-item { 
                 position: relative; width: 100%; transform: none !important; 
                 opacity: 1 !important; filter: none !important;
@@ -238,25 +234,15 @@
         const totalItems = items.length;
         
         const angleUnit = 360 / totalItems;
-        // Radius dialed tightly to create the overlapping book folder texture
         const radius = 260; 
 
         items.forEach((item, index) => {
             const itemAngle = angleUnit * index;
             
-            /* 📐 THE MAGIC MATH: 
-               We add an extra `rotateY(90deg)` to the base matrix. 
-               This forces every single picture to stand sideways on the ring rim (like spokes on a wheel or book pages).
-            */
             const baseTransform = `rotateY(${itemAngle}deg) translateZ(${radius}px) rotateY(90deg)`;
             item.style.transform = baseTransform;
             item.style.setProperty('--current-transform', baseTransform);
             
-            /*
-               🔮 THE FLIP MATRIX:
-               When hovered, we dynamically counteract the carousel's rotation, 
-               pulling the card 160px closer to the screen and facing the user at exactly 0 degrees.
-            */
             const hoverFlipTransform = `rotateY(${itemAngle}deg) translateZ(${radius + 160}px) rotateY(0deg) scale(1.45)`;
             item.style.setProperty('--hover-flip-transform', hoverFlipTransform);
         });
