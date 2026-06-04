@@ -1,138 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guizhu YUE | Portfolio</title>
-<style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        color: #111;
-        background-color: #fff;
-        display: flex;
-        flex-direction: row;
-        min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guizhu YUE | Portfolio</title>
+    <style>
+        /* 页面整体基础样式：高级黑 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #ffffff; /* 字体全部改成白色 */
+            background-color: #000000; /* 背景彻底变成纯黑 */
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
 
-    /* 左侧固定的艺术家信息栏 */
-    .sidebar {
-        width: 320px;
-        padding: 60px 40px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        border-right: 1px solid #eee;
-        background-color: #fff;
-    }
-    .sidebar h1 {
-        font-size: 2.2rem;
-        font-weight: 700;
-        margin-bottom: 10px;
-        letter-spacing: 0.5px;
-        line-height: 1.2;
-    }
-    .sidebar .subtitle {
-        font-size: 0.9rem;
-        color: #666;
-        margin-bottom: 50px;
-    }
-    .contact-item {
-        margin-bottom: 25px;
-    }
-    .contact-label {
-        font-size: 0.7rem;
-        color: #999;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        margin-bottom: 5px;
-    }
-    .contact-value {
-        font-size: 0.95rem;
-        color: #222;
-        word-break: break-all;
-    }
-    .contact-value a {
-        color: #222;
-        text-decoration: none;
-    }
+        /* 左侧固定栏 - 白色文字在黑色背景下极为显眼 */
+        .sidebar {
+            width: 320px;
+            padding: 60px 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border-right: 1px solid #1a1a1a; /* 极暗的分割线 */
+        }
+        .sidebar h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+        .sidebar .subtitle {
+            font-size: 0.9rem;
+            color: #888; /* 灰色副标题 */
+            margin-bottom: 50px;
+        }
+        .contact-item {
+            margin-bottom: 25px;
+        }
+        .contact-label {
+            font-size: 0.7rem;
+            color: #555; /* 暗灰色标签 */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+        .contact-value {
+            font-size: 0.95rem;
+            color: #ddd;
+            word-break: break-all;
+        }
+        .contact-value a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .contact-value a:hover {
+            color: #fff; /* 悬停时变亮 */
+        }
 
-    /* 右侧作品网格区域 */
-    .main-content {
-        margin-left: 320px;
-        flex: 1;
-        padding: 40px;
-    }
-    .portfolio-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-    }
-    .portfolio-item {
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        overflow: hidden;
-        background-color: #fafafa;
-        transition: transform 0.2s ease;
-    }
-    .portfolio-item:hover {
-        transform: translateY(-5px);
-    }
-    .portfolio-item img {
-        width: 100%;
-        display: block;
-    }
-    .portfolio-item .caption {
-        padding: 10px;
-        font-size: 0.9rem;
-        color: #333;
-    }
-</style>
+        /* 右侧作品瀑布流网格区域 */
+        .main-content {
+            margin-left: 320px;
+            flex: 1;
+            padding: 40px;
+        }
+        
+        /* 采用响应式多列布局，模仿原网址错落有致的视觉效果 */
+        .portfolio-grid {
+            column-count: 2; /* 电脑端排成两列瀑布流 */
+            column-gap: 20px;
+        }
+        
+        /* 每一个作品块 */
+        .portfolio-item {
+            break-inside: avoid; /* 防止图片被截断 */
+            margin-bottom: 20px;
+            background-color: #0b0b0b;
+            position: relative;
+            cursor: pointer;
+            display: block; /* 允许整体作为超链接点击 */
+            text-decoration: none;
+        }
+        
+        /* 图片盒子：控制动态特效 */
+        .portfolio-item .img-box {
+            width: 100%;
+            overflow: hidden;
+            background-color: #111;
+        }
+        
+        /* 核心动态：像原网址一样的平滑呼吸放大感 */
+        .portfolio-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(20%); /* 略带一点高级灰滤镜 */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
+        }
+        
+        /* 鼠标悬停时的动效：图片放大并且色彩变亮变鲜艳 */
+        .portfolio-item:hover img {
+            transform: scale(1.04); 
+            filter: grayscale(0%);
+        }
+        
+        /* 图片下方的标题文字 */
+        .item-info {
+            padding: 12px 5px;
+            font-size: 0.85rem;
+            color: #888;
+            transition: color 0.3s;
+        }
+        .portfolio-item:hover .item-info {
+            color: #fff; /* 悬停时文字变白 */
+        }
+
+        /* 移动端响应式：自动适配手机和iPad */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                padding: 40px 25px 20px 25px;
+                border-right: none;
+                border-bottom: 1px solid #1a1a1a;
+            }
+            .sidebar .subtitle {
+                margin-bottom: 30px;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .portfolio-grid {
+                column-count: 1; /* 手机端自动变成单列展示 */
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <h1>Guizhu YUE</h1>
-    <div class="subtitle">Visual Artist & Designer</div>
+    <div class="sidebar">
+        <h1>Guizhu YUE</h1> 
+        <div class="subtitle">Motion & Visual Storytelling</div>
+        
+        <div class="contact-item">
+            <div class="contact-label">TEL</div>
+            <div class="contact-value"><a href="tel:+330695285161">+33 06 95 28 51 61</a></div>
+        </div>
+        
+        <div class="contact-item">
+            <div class="contact-label">MAIL</div>
+            <div class="contact-value"><a href="mailto:guizhu.yue@eicar.fr">guizhu.yue@eicar.fr</a></div>
+        </div>
+    </div>
 
-    <div class="contact-item">
-        <div class="contact-label">Email</div>
-        <div class="contact-value"><a href="mailto:example@email.com">example@email.com</a></div>
-    </div>
-    <div class="contact-item">
-        <div class="contact-label">Website</div>
-        <div class="contact-value"><a href="https://example.com" target="_blank">example.com</a></div>
-    </div>
-</div>
+    <div class="main-content">
+        <div class="portfolio-grid">
+            
+            <a href="project1.html" class="portfolio-item">
+                <div class="img-box"><img src="p1.jpg" alt="FADE Video"></div>
+                <div class="item-info">01. FADE Promotional Video</div>
+            </a>
+            
+            <a href="project2.html" class="portfolio-item">
+                <div class="img-box"><img src="p2.jpg" alt="LA THERAPIE DU CONFORT"></div>
+                <div class="item-info">02. LA THÉRAPIE DU CONFORT (Short Film)</div>
+            </a>
+            
+            <a href="project3.html" class="portfolio-item">
+                <div class="img-box"><img src="p3.jpg" alt="OnTime Media"></div>
+                <div class="item-info">03. OnTime Média (Documentary Interview)</div>
+            </a>
+            
+            <a href="project4.html" class="portfolio-item">
+                <div class="img-box"><img src="p4.jpg" alt="L'ORANGE"></div>
+                <div class="item-info">04. L'ORANGE N'EST PAS LE SEUL FRUIT</div>
+            </a>
+            
+            <a href="project5.html" class="portfolio-item">
+                <div class="img-box"><img src="p5.jpg" alt="Runway"></div>
+                <div class="item-info">05. UNIQUE FASHION FOUNDATION (Paris Runway)</div>
+            </a>
+            
+            <a href="project6.html" class="portfolio-item">
+                <div class="img-box"><img src="p6.jpg" alt="Photography"></div>
+                <div class="item-info">06. Brand Collaboration & Editorial Photography</div>
+            </a>
 
-<div class="main-content">
-    <div class="portfolio-grid">
-        <div class="portfolio-item">
-            <img src="https://via.placeholder.com/400x300" alt="Artwork 1">
-            <div class="caption">Artwork Title 1</div>
-        </div>
-        <div class="portfolio-item">
-            <img src="https://via.placeholder.com/400x300" alt="Artwork 2">
-            <div class="caption">Artwork Title 2</div>
-        </div>
-        <div class="portfolio-item">
-            <img src="https://via.placeholder.com/400x300" alt="Artwork 3">
-            <div class="caption">Artwork Title 3</div>
-        </div>
-        <div class="portfolio-item">
-            <img src="https://via.placeholder.com/400x300" alt="Artwork 4">
-            <div class="caption">Artwork Title 4</div>
         </div>
     </div>
-</div>
 
 </body>
 </html>
