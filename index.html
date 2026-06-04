@@ -3,88 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>01. FADE Promotional Video | Guizhu YUE</title>
+    <title>Guizhu YUE | Portfolio</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
-            background-color: #000000;
-            color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 40px;
+            color: #ffffff; 
+            background-color: #000000; 
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 320px;
+            padding: 60px 40px;
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            justify-content: flex-start;
+            border-right: 1px solid #111111;
+            z-index: 10;
+            background-color: #000000;
         }
-        .back-btn {
-            align-self: flex-start;
-            color: #666666;
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin-bottom: 40px;
-            transition: color 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .back-btn:hover { color: #ffffff; }
-
-        .container {
-            width: 100%;
-            max-width: 1000px;
-        }
-        .project-title {
-            font-size: 2rem;
+        .sidebar h1 {
+            font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 10px;
             letter-spacing: 0.5px;
+            color: #ffffff;
         }
-        .project-meta {
+        .sidebar .subtitle {
             font-size: 0.9rem;
             color: #666666;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+        }
+        .contact-item {
+            margin-bottom: 25px;
+        }
+        .contact-label {
+            font-size: 0.7rem;
+            color: #444444;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
         }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Ratio */
-            height: 0;
-            background-color: #050505;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 50px rgba(255, 255, 255, 0.02);
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border: none;
-        }
-
-        .project-description {
-            font-size: 1rem;
-            line-height: 1.8;
+        .contact-value {
+            font-size: 0.95rem;
             color: #aaaaaa;
-            max-width: 800px;
+            word-break: break-all;
+        }
+        .contact-value a {
+            color: #aaaaaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .contact-value a:hover {
+            color: #ffffff;
+        }
+
+        .main-content {
+            margin-left: 320px;
+            flex: 1;
+            padding: 40px;
+            perspective: 1000px; 
+        }
+        
+        .portfolio-grid {
+            column-count: 3; 
+            column-gap: 30px;
+        }
+        
+        .portfolio-item {
+            break-inside: avoid; 
+            margin-bottom: 30px;
+            background-color: transparent;
+            position: relative;
+            cursor: pointer;
+            display: block; 
+            text-decoration: none;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .portfolio-item .img-box {
+            width: 100%;
+            overflow: hidden;
+            background-color: #0a0a0a;
+            transition: transform 0.5s ease-out, box-shadow 0.5s ease-out;
+            will-change: transform;
+            border-radius: 2px;
+        }
+        
+        .portfolio-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(15%);
+            transition: filter 0.5s ease, scale 0.5s ease;
+        }
+        
+        .portfolio-item:hover .img-box {
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.08);
+        }
+        .portfolio-item:hover img {
+            filter: grayscale(0%);
+            scale: 1.02;
+        }
+        
+        .item-info {
+            padding: 15px 5px 5px 5px;
+            font-size: 0.85rem;
+            color: #666666;
+            transition: color 0.3s;
+        }
+        .portfolio-item:hover .item-info {
+            color: #ffffff;
+        }
+
+        @media (max-width: 1200px) {
+            .portfolio-grid { 
+                column-count: 2; 
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { 
+                flex-direction: column; 
+            }
+            .sidebar {
+                width: 100%; 
+                position: relative; 
+                height: auto;
+                padding: 40px 25px 20px 25px; 
+                border-right: none;
+                border-bottom: 1px solid #111111;
+            }
+            .sidebar .subtitle { 
+                margin-bottom: 30px; 
+            }
+            .main-content { 
+                margin-left: 0; 
+                padding: 20px; 
+            }
+            .portfolio-grid { 
+                column-count: 1; 
+            }
         }
     </style>
 </head>
 <body>
 
-    <a href="index.html" class="back-btn">← Back to Portfolio</a>
-
-    <div class="container">
-        <h1 class="project-title">01. FADE Promotional Video</h1>
-        <div class="project-meta">Role: Camera Operator & Concept Development</div>
-
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/9Waz1IvWsea" allowfullscreen></iframe>
+    <div class="sidebar">
+        <h1>Guizhu YUE</h1> 
+        <div class="subtitle">Motion & Visual Storytelling</div>
+        
+        <div class="contact-item">
+            <div class="contact-label">TEL</div>
+            <div class="contact-value"><a href="tel:+330695285161">+33 06 95 28 51 61</a></div>
         </div>
-
-        <div class="project-description">
-            <p>This is a promotional video created for the FADE association to announce an upcoming creative workshop centered around T-shirt customization. Together with Marion Crouzet and the association team, I was involved in the concept development and video production. The film focuses on presenting the visual outcome of the artistic collaboration.</p>
+        
+        <div class="contact-item">
+            <div class="contact-label">MAIL</div>
+            <div class="contact-value"><a href="mailto:guizhu.yue@eicar.fr">guizhu.yue@eicar.fr</a></div>
         </div>
     </div>
+
+    <div class="main-content">
+        <div class="portfolio-grid">
+            
+            <a href="project1.html" class="portfolio-item">
+                <div class="img-box"><img src="p1.jpg" alt="Project 1"></div>
+                <div class="item-info">01. FADE Promotional Video</div>
+            </a>
+            
+            <a href="project2.html" class="portfolio-item">
+                <div class="img-box"><img src="p2.jpg" alt="Project 2"></div>
+                <div class="item-info">02. LA THÉRAPIE DU CONFORT</div>
+            </a>
+            
+            <a href="project3.html" class="portfolio-item">
+                <div class="img-box"><img src="p3.jpg" alt="Project 3"></div>
+                <div class="item-info">03. OnTime Média Documentary</div>
+            </a>
+            
+            <a href="project4.html" class="portfolio-item">
+                <div class="img-box"><img src="p4.jpg" alt="Project 4"></div>
+                <div class="item-info">04. L'ORANGE N'EST PAS LE SEUL FRUIT</div>
+            </a>
+            
+            <a href="project5.html" class="portfolio-item">
+                <div class="img-box"><img src="p5.jpg" alt="Project 5"></div>
+                <div class="item-info">05. UNIQUE FASHION FOUNDATION</div>
+            </a>
+            
+            <a href="project6.html" class="portfolio-item">
+                <div class="img-box"><img src="p6.jpg" alt="Project 6"></div>
+                <div class="item-info">06. Editorial & Brand Collaboration</div>
+            </a>
+
+            <a href="project7.html" class="portfolio-item">
+                <div class="img-box"><img src="p7.jpg" alt="Project 7"></div>
+                <div class="item-info">07. Visual Production Asset</div>
+            </a>
+
+            <a href="project8.html" class="portfolio-item">
+                <div class="img-box"><img src="p8.jpg" alt="Project 8"></div>
+                <div class="item-info">08. Creative Direction Project</div>
+            </a>
+
+            <a href="project9.html" class="portfolio-item">
+                <div class="img-box"><img src="p9.jpg" alt="Project 9"></div>
+                <div class="item-info">09. Fashion Film Campaign</div>
+            </a>
+
+            <a href="project10.html" class="portfolio-item">
+                <div class="img-box"><img src="p10.jpg" alt="Project 10"></div>
+                <div class="item-info">10. Motion Graphic Showcase</div>
+            </a>
+
+            <a href="project11.html" class="portfolio-item">
+                <div class="img-box"><img src="p11.jpg" alt="Project 11"></div>
+                <div class="item-info">11. Documentary Production</div>
+            </a>
+
+            <a href="project12.html" class="portfolio-item">
+                <div class="img-box"><img src="p12.jpg" alt="Project 12"></div>
+                <div class="item-info">12. Photography Editorial Series</div>
+            </a>
+
+            <a href="project13.html" class="portfolio-item">
+                <div class="img-box"><img src="p13.jpg" alt="Project 13"></div>
+                <div class="item-info">13. Social Media Visual Campaign</div>
+            </a>
+
+            <a href="project14.html" class="portfolio-item">
+                <div class="img-box"><img src="p14.jpg" alt="Project 14"></div>
+                <div class="item-info">14. Experimental Film Workshop</div>
+            </a>
+
+            <a href="project15.html" class="portfolio-item">
+                <div class="img-box"><img src="p15.jpg" alt="Project 15"></div>
+                <div class="item-info">15. Creative Portfolio Showcase</div>
+            </a>
+
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            const imgBox = item.querySelector('.img-box');
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const xc = ((x / rect.width) - 0.5);
+                const yc = ((y / rect.height) - 0.5);
+                const rotateX = yc * -20;
+                const rotateY = xc * 20;
+                imgBox.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            item.addEventListener('mouseleave', () => {
+                imgBox.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            });
+        });
+    </script>
 
 </body>
 </html>
